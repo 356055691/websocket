@@ -1,2 +1,110 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class="left-user-list">
+</div>
+<div class="right-user-list">
+</div>
+<div class="main-c">
+  <input id="sendTxt" type="text" />
+  <button id="sendBtn" >发送</button>
+  <div id="recv"></div>
+  <div class="message-c"></div>
+  <div class="pk-btn pk-1" onclick="pk()">准备</div>
+  <div class="pk-btn pk-2 active">等待开始</div>
+  <div class="chosen-c">
+    <div onclick="chosen('bu', this)">布</div>
+    <div onclick="chosen('jian', this)">剪</div>
+    <div onclick="chosen('chui', this)">锤</div>
+  </div>
+  <button class="re" onclick="re()">再来一局</button>
+</div>
+<div class="cover-c">
+  <div class="cover-bg"></div>
+  <div class="cover-main">
+    <div class="input-group">
+      <input type="text" class="form-control userName" placeholder="请输入昵称，格式（李靖_技术部）">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" onclick="login()">确定</button>
+      </span>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var websocket = new WebSocket("ws://192.168.30.194:8001");
+  var userList = [];
+  var userName = '';
+  var pkStatus = false;
+  function showMassage(str){
+    $('.message-c').append('<div>' + str + '</div>');
+  }
+  websocket.onopen = function () {
+    console.log('链接建立');
+    document.getElementById("sendBtn").onclick = function () {
+      var txt = document.getElementById("sendTxt").value;
+      if(txt){
+        websocket.send(txt);
+      }
+    }
+  }
+  websocket.onclose = function () {
+    console.log('链接关闭');
+  }
+  websocket.onmessage = function (e) {
+    if (e.data && e.data.split('REFRESH_USER_') && e.data.split('REFRESH_USER_')[1]) {
+      var list = (e.data.split('REFRESH_USER_')[1]);
+      list = list.split('-');
+      userList = list;
+      addUser(list);
+    } else if (e.data && e.data.split('PK_USER_') && e.data.split('PK_USER_')[1] && e.data.split('PK_USER_')[2]) {
+      for (var i = 0; i < userList.length; i++) {
+        if (userList[i] === userName) {
+          $('.pk-1').show();
+        }
+      }
+    } else if (e.data && e.data.split('READY_GO_') && e.data.split('READY_GO_')[1] && e.data.split('READY_GO_')[2]) {
+      pkStatus = true;
+      for (var i = 0; i < userList.length; i++) {
+        if (userList[i] === userName && pkStatus) {
+          $('.chosen-c').show();
+        }
+      }
+    } else {
+      showMassage(e.data);
+    }
+  }
+  
+</script>
+<script>
+  function re() {
+    websocket.send('RESET');
+  }
+  function login() {
+    if ($('.userName').val()) {
+      userName = $('.userName').val();
+      if (userName === '李靖_技术部') {
+        $('.re').show();
+      }
+      websocket.send('USER_LOGIN_' + $('.userName').val());
+      $('.cover-c').hide();
+    }
+  }
+  function addUser(name) {
+    $('.left-user-list').empty();
+    $('.right-user-list').empty();
+    for (var i = 0; i < name.length; i++) {
+      if (i % 2 === 0) {
+        $('.left-user-list').append('<div>' + name[i] + '</div>');
+      } else {
+        $('.right-user-list').append('<div>' + name[i] + '</div>');
+      }
+    }
+  }
+  function pk() {
+    $('.pk-1').hide();
+    $('.pk-2').show();
+    websocket.send('READY_USER_' + userName);
+  }
+  function chosen(type, obj) {
+    $(obj).addClass('active').siblings('div').removeClass('active');
+    websocket.send('CHOSEN_NAME_' + userName);
+    websocket.send('CHOSEN_TYPE_' + type);
+  }
+</script>

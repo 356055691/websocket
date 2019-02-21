@@ -1,8 +1,139 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.cover-c {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
 }
-
-a {
-  color: #00B7FF;
+.cover-bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: 0.5;
+}
+.cover-main {
+  width: 400px;
+  height: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -200px;
+  background-color: #fff;
+  border: solid 1px #ccc;
+  border-radius: 10px;
+  padding: 40px;
+}
+.left-user-list {
+  width: 220px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #ccc;
+}
+.left-user-list div {
+  width: 100px;
+  margin-left: 20px;
+  height: 40px;
+  float: left;
+  color: #444;
+  text-align: center;
+  line-height: 40px;
+  margin-top: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 12px;
+}
+.right-user-list {
+  width: 220px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+}
+.right-user-list div {
+  width: 100px;
+  margin-left: 20px;
+  height: 40px;
+  float: right;
+  color: #444;
+  text-align: center;
+  line-height: 40px;
+  margin-top: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 12px;
+}
+.main-c {
+  width: 320px;
+  height: 800px;
+  border: solid 1px #ccc;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -400px;
+  margin-left: -150px;
+}
+.message-c {
+  width: 100%;
+  height: 400px;
+  overflow-y: scroll;
+}
+.pk-btn {
+  width: 100px;
+  line-height: 30px;
+  text-align: center;
+  background-color: #ccc;
+  color: #000;
+  height: 30px;
+  margin: 0 auto;
+  cursor: pointer;
+  z-index: 9999;
+}
+.pk-btn.active {
+  color: #fff;
+  background-color: forestgreen;
+}
+.pk-1 {
+  display: none;
+}
+.pk-2 {
+  display: none;
+}
+.chosen-c {
+  width: 320px;
+  height: 100px;
+  display: none;
+}
+.chosen-c div {
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  float: left;
+  margin-left: 20px;
+  margin-top: 10px;
+  background-color: #ccc;
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.chosen-c div.active {
+  background-color: #000;
+}
+.re {
+  display: none;
 }
